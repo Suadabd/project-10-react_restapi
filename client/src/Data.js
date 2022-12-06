@@ -2,12 +2,7 @@ import { Buffer } from "buffer";
 
 export default class Data {
   api(
-    path,
-    method = "GET",
-    body = null,
-    requiresAuth = false,
-    credentials = null
-  ) {
+    path, method = "GET", body = null, requiresAuth = false, credentials = null) {
     const url = `http://localhost:5000/api${path}`;
 
     const options = {
@@ -17,12 +12,16 @@ export default class Data {
       },
     };
 
+   // Check if auth is required
+
+   
     if (body !== null) {
       options.body = JSON.stringify(body);
     }
 
 
-
+ 
+    // if true the user credentials will be encoded & set HTTP auth request header to the Basic Authentication type.
     if (requiresAuth) {
       const encodedCredentials = Buffer.from(
         `${credentials.username}:${credentials.password}`
@@ -33,7 +32,7 @@ export default class Data {
   }
 
 
-  async getUser(username, password) {
+  async getUser(username, password) { // add new parameters
     const response = await this.api(`/users`, "GET", null, true, {
       username,
       password,

@@ -14,7 +14,7 @@ const UserSignUp = ({ context }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // create user
+    // create user object
     const user = {
       firstName: firstName.current.value,
       lastName: lastName.current.value,

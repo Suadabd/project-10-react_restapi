@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Courses = ({ context }) => {
   const [courses, setCourses] = useState([]);
-
   let navigate = useNavigate();
 
+// retrieved a list of courses from rest api and added ta course array using state ([setCourse]).
   useEffect(() => {
     context.data
       .getCourses()
@@ -22,8 +22,7 @@ const Courses = ({ context }) => {
         {courses?.map((course) => {
           return (
             <Link
-              className="course--module course--link"
-              to={`/courses/${course.id}`}
+              className="course--module course--link" to={`/courses/${course.id}`} 
               key={course.id}
             >
               <h2 className="course--label">Course</h2>
@@ -51,6 +50,7 @@ const Courses = ({ context }) => {
         </Link>
       </div>
     </main>
+    
   );
 };
 

@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 
-
 import Data from "./Data";
 import Cookies from "js-cookie";
 
+
+
+// code adapted from the 'React Authentication' treehouse course
 const Context = React.createContext();
 
 export class Provider extends Component {
   constructor() {
     super();
     this.data = new Data();
-
     this.cookie = Cookies.get("authenticatedUser");
-
     this.state = {
       authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null,
     };
@@ -23,7 +23,7 @@ export class Provider extends Component {
     const value = {
       authenticatedUser,
       data: this.data,
-      actions: {
+      actions: { // Add the 'actions' property and object
         signIn: this.signIn,
         signOut: this.signOut,
       },
@@ -32,7 +32,8 @@ export class Provider extends Component {
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
-
+// Handles user sign in authentication 
+// additionally updates cookie with auth user info.
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
     const plainText = password;
@@ -49,8 +50,8 @@ export class Provider extends Component {
     }
     return user;
   };
-
- 
+// handle user sign out 
+// removes the cookies when auth user signs out. 
   signOut = () => {
     this.setState({ authenticatedUser: null });
     Cookies.remove("authenticatedUser");

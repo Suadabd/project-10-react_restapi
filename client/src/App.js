@@ -1,25 +1,27 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
 import withContext from "./Context";
+import { Route, Routes } from "react-router-dom";
 
-// Components
-import Header from "./component/Header";
-import Courses from "./component/Courses"; 
-import UserSignIn from "./component/UserSignIn"; 
+
+// imported Components
 import CourseDetail from "./component/CourseDetail"; 
-import UserSignOut from "./component/UserSignOut";
+import Courses from "./component/Courses"; 
+import Header from "./component/Header";
 import UpdateCourse from "./component/UpdateCourse";
+import UserSignIn from "./component/UserSignIn"; 
+import UserSignOut from "./component/UserSignOut";
 import UserSignUp from "./component/UserSignUp";
 import CreateCourse from "./component/CreateCourse";
 import PrivateRoute from "./PrivateRoute";
 
-const HeaderWithContext = withContext(Header);
-const CoursesWithContext = withContext(Courses);
-const UserSignInWithContext = withContext(UserSignIn);
+// connecting components to Context
 const CourseDetailWithContext = withContext(CourseDetail);
+const CoursesWithContext = withContext(Courses);
+const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
+const HeaderWithContext = withContext(Header);
 const UserSignOutWithContext = withContext(UserSignOut);
 const UpdateCourseWithContext = withContext(UpdateCourse);
-const UserSignUpWithContext = withContext(UserSignUp);
 const CreateCourseWithContext = withContext(CreateCourse);
 const PrivateRouteWithContext = withContext(PrivateRoute);
 
@@ -54,6 +56,9 @@ const App = () => {
 };
 
 export default App;
+
+
+// checking connection
 
 // function App() {
 //   // move lt8t to courses

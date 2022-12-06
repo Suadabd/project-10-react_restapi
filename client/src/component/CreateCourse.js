@@ -1,10 +1,10 @@
-
-
 import React, { useState} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
 
 const CreateCourse = ({ context }) => {
+
+// set up for using state.
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [estimatedTime, seteEtimatedTime] = useState("");
@@ -49,7 +49,7 @@ const CreateCourse = ({ context }) => {
             context.authenticatedUser.emailAddress,
             context.authenticatedUser.password
           )
-        .then ( (errors) => {
+        .then ( (errors) => { // set errors from response
           if (errors.length) {
             setErrors( errors );
           } else {
@@ -58,7 +58,7 @@ const CreateCourse = ({ context }) => {
         })
         .catch( (err) => {
           console.error(err);
-          navigate("/");
+          navigate("/");   // return home- index page/
           });
         };   
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Displays the top menu bar for the application and includes buttons such as sign-in, sign out, sign up.
 export default class Header extends React.PureComponent {
   
   render() {
@@ -14,16 +15,16 @@ export default class Header extends React.PureComponent {
             <Link to="/"> Courses </Link>
           </h1>
           <nav>
-            {authUser ? (
+            {authUser ? ( // if user authenticated - sign out option exits
               <ul className="header--signedin">
                 <li>{`Welcome, ${authUser.firstName} ${authUser.lastName}!`}</li>
                 <li>
-                  <Link to="/signout">
-                  Sign Out 
+                  <Link to="/signout"> 
+                  Sign Out    
                   </Link>
                 </li>
               </ul>
-            ) : (
+            ) : ( 
               <ul className="header--signedout">
                 <li>
                   <Link className="signup" to="/signup">

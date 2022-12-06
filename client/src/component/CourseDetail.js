@@ -12,9 +12,7 @@ const CourseDetail = ({ context }) => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-
-
-
+// from Context
     useEffect(() => {
         context.data
             .getCourse(id)
@@ -25,7 +23,7 @@ const CourseDetail = ({ context }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
+// handle delete request.
     const handleDelete = async (event) => {
         event.preventDefault();
         
