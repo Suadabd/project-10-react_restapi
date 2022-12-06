@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import withContext from "./Context";
 
-//components---//
+// Components
 import Header from "./component/Header";
 import Courses from "./component/Courses"; 
 import UserSignIn from "./component/UserSignIn"; 
