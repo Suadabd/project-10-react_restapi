@@ -1,126 +1,131 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+
+import React, { useState} from 'react';
+import { Link, useNavigate } from "react-router-dom";
+
 
 const CreateCourse = ({ context }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [estimatedTime, seteEtimatedTime] = useState("");
+  const [materialsNeeded, setMaterialsNeeded] = useState("");
   const [errors, setErrors] = useState([]);
-  const authUser = context.authenticatedUser;
 
   const navigate = useNavigate();
 
-  const title = useRef();
-  const description = useRef();
-  const estimatedTime = useRef();
-  const materialsNeeded = useRef();
-
-  /**
-   *
-   * @param {event object} e - prevents the default functionality of form submission
-   *  creates a course object that references input values
-   *  * the course object is them passed to createCourse function via context along with username and password
-   */
-
-  const handleCreateCourse = (e) => {
+  const handleChange = (e) => {
     e.preventDefault();
-    const course = {
-      userId: context.authenticatedUser.id,
-      title: title.current.value,
-      description: description.current.value,
-      estimatedTime: estimatedTime.current.value,
-      materialsNeeded: materialsNeeded.current.value,
-    };
-    context.data
-      .createCourse(
-        course,
-        context.authenticatedUser.email,
-        context.authenticatedUser.password
-      )
-      .then((errors) => {
-        if (errors.length) {
-          setErrors(errors);
-        } else {
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/error");
-      });
+
+    const name = e.target.name;
+    const value = e.target.value;
+
+    if (name === "courseTitle") {
+      setTitle(value);
+    } else if (name === "courseDescription") {
+      setDescription(value);
+    } else if (name === "estimatedTime") {
+      seteEtimatedTime(value);
+    } else if (name === "materialsNeeded") {
+      setMaterialsNeeded(value);
+    } else {
+      return;
+    }
   };
-  /**
-   * Navigates the user to the course detail page when the press the cancel button
-   */
-  function handleCancel() {
-    navigate("/");
-  }
 
-  return (
-    <main>
-      <div className="wrap">
-        <h2>Create Course</h2>
-        {errors && errors.length ? (
-          <div className="validation--errors">
-            <h3>Validation Errors</h3>
-            <ul>
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
-        <form onSubmit={handleCreateCourse}>
-          <div className="main--flex">
-            <div>
-              <label htmlFor="courseTitle">Course Title</label>
-              <input
-                id="courseTitle"
-                name="courseTitle"
-                type="text"
-                defaultValue=""
-                ref={title}
-              />
 
-              <p>
-                By {authUser.firstName} {authUser.lastName}
-              </p>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-              <label htmlFor="courseDescription">Course Description</label>
-              <textarea
-                id="courseDescription"
-                name="courseDescription"
-                defaultValue=""
-                ref={description}
-              ></textarea>
-            </div>
-            <div>
-              <label htmlFor="estimatedTime">Estimated Time</label>
-              <input
-                id="estimatedTime"
-                name="estimatedTime"
-                type="text"
-                defaultValue=""
-                ref={estimatedTime}
-              />
+    const body = {
+      userId: context.authenticatedUser.id,
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+    };
+     await context.data
+        .createCourse(
+            body,
+            context.authenticatedUser.emailAddress,
+            context.authenticatedUser.password
+          )
+        .then ( (errors) => {
+          if (errors.length) {
+            setErrors( errors );
+          } else {
+            navigate("/");
+          }
+        })
+        .catch( (err) => {
+          console.error(err);
+          navigate("/");
+          });
+        };   
 
-              <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea
-                id="materialsNeeded"
-                name="materialsNeeded"
-                defaultValue=""
-                ref={materialsNeeded}
-              ></textarea>
-            </div>
-          </div>
-          <button className="button" type="submit">
-            Create Course
-          </button>
 
-          <button onClick={handleCancel} className="button button-secondary">
-            Cancel
-          </button>
-        </form>
-      </div>
-    </main>
-  );
-};
+    return(
+        <main>
+            <div className="wrap">
+                <h2>Create Course</h2>
+                  {errors && errors.length ? (    
+                  <div className="validation--errors">
+                  <h3>Validation Errors</h3>
+                  <ul>
+                    {errors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+              </div>
+            ) : null}
+                <form onSubmit={handleSubmit}>
+                    <div className="main--flex">
+                        <div>
+                            <label htmlFor="courseTitle">Course Title</label>
+                            <input 
+                             id="courseTitle" 
+                             name="courseTitle" 
+                             type="text" 
+                             value={title}
+                             onChange={handleChange}
+                             />
+
+                            <p>By {context.authenticatedUser.firstName} {context.authenticatedUser.lastName} </p>
+
+                            <label htmlFor="courseDescription">Course Description</label>
+                            <textarea 
+                             id="courseDescription" 
+                             name="courseDescription"
+                             value={description}
+                             onChange={handleChange}>
+                             </textarea>
+                        </div>
+                        <div>
+                            <label htmlFor="estimatedTime">Estimated Time</label>
+                            <input 
+                             id="estimatedTime" 
+                             name="estimatedTime" 
+                             type="text" 
+                             value={estimatedTime}
+                             onChange={handleChange}
+                             />
+
+                            <label htmlFor="materialsNeeded">Materials Needed</label>
+                            <textarea 
+                             id="materialsNeeded" 
+                             name="materialsNeeded"
+                             value={materialsNeeded}
+                             onChange={handleChange}>
+                             </textarea>
+                        </div>
+                    </div>
+                    <button 
+                     className="button" 
+                     type="submit">Create Course</button>
+                    <Link className="button button-secondary" to="/"> Cancel</Link>
+                </form> 
+              </div>  
+        </main>          
+    );
+} 
 
 export default CreateCourse;

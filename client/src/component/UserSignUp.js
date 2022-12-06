@@ -1,18 +1,20 @@
+
 import React, { useRef, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate, NavLink } from "react-router-dom";
 
 const UserSignUp = ({ context }) => {
-  const [errors, setErrors] = useState([]);
-
   const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
 
   const firstName = useRef(null);
   const lastName = useRef(null);
   const emailAddress = useRef(null);
   const password = useRef(null);
 
-  const handleSignUp = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
+    // create user
     const user = {
       firstName: firstName.current.value,
       lastName: lastName.current.value,
@@ -25,18 +27,18 @@ const UserSignUp = ({ context }) => {
       .then((errors) => {
         if (errors.length) {
           setErrors(errors);
+          // console.log(errors);
         } else {
-          context.actions
-            .signIn(emailAddress.current.value, password.current.value)
+          context.actions.signIn(emailAddress.current.value, password.current.value)
             .then(() => {
-              console.log("authenticed");
+              console.log("auth");
               navigate("/");
             });
         }
       })
       .catch((err) => {
-        console.log(err);
-        navigate("/error");
+        console.log(err, 'error with sign up');
+        navigate("/");
       });
   };
   function handleCancel() {
@@ -44,7 +46,6 @@ const UserSignUp = ({ context }) => {
   }
 
   return (
-    <main>
       <div className="form--centered">
         <h2>Sign Up</h2>
         {errors && errors.length ? (
@@ -57,7 +58,7 @@ const UserSignUp = ({ context }) => {
             </ul>
           </div>
         ) : null}
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="firstName">First Name</label>
           <input
             id="firstName"
@@ -97,12 +98,11 @@ const UserSignUp = ({ context }) => {
             Cancel
           </button>
         </form>
-        <p>
-          Already have a user account? Click here to{" "}
-          <NavLink to="/signin">sign in</NavLink>!
-        </p>
+          <p> Already have a user account? Click here to {" "}
+            <NavLink to="/signin">sign in</NavLink>!
+          </p>
       </div>
-    </main>
+    
   );
 };
 
